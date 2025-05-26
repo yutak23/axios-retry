@@ -82,6 +82,7 @@ export interface AxiosRetry {
   isNetworkOrIdempotentRequestError(error: AxiosError): boolean;
   exponentialDelay(retryCount?: number, error?: AxiosError, delayFactor?: number): number;
   linearDelay(delayFactor?: number): (retryCount: number, error: AxiosError | undefined) => number;
+  noDelay(retryCount?: number, error?: AxiosError): number;
 }
 
 declare module 'axios' {
@@ -155,7 +156,10 @@ export function retryAfter(error: AxiosError | undefined = undefined): number {
   return Math.max(0, retryAfterMs);
 }
 
-function noDelay(_retryCount = 0, error: AxiosError | undefined = undefined) {
+export function noDelay(
+  _retryCount = 0,
+  error: AxiosError | undefined = undefined
+) {
   return Math.max(0, retryAfter(error));
 }
 
@@ -339,4 +343,5 @@ axiosRetry.isNetworkOrIdempotentRequestError = isNetworkOrIdempotentRequestError
 axiosRetry.exponentialDelay = exponentialDelay;
 axiosRetry.linearDelay = linearDelay;
 axiosRetry.isRetryableError = isRetryableError;
+axiosRetry.noDelay = noDelay;
 export default axiosRetry;
