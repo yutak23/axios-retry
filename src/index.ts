@@ -156,10 +156,7 @@ export function retryAfter(error: AxiosError | undefined = undefined): number {
   return Math.max(0, retryAfterMs);
 }
 
-export function noDelay(
-  _retryCount = 0,
-  error: AxiosError | undefined = undefined
-) {
+export function noDelay(_retryCount = 0, error: AxiosError | undefined = undefined) {
   return Math.max(0, retryAfter(error));
 }
 
